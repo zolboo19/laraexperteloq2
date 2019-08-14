@@ -6,9 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Photo extends Model
 {
-    protected $fillable = ['imageable_id', 'imageable_type', 'filename'];
+    protected $fillable = ['filename'];
 
-    public function imageable(){
-        return $this->morphTo();
+    // public function imageable(){
+    //     return $this->morphTo();
+    // }
+
+    public function products(){
+        return $this->morphedByMany('App\Product', 'imageable');
+    }
+
+    public function posts(){
+        return $this->morphedByMany('App\Post', 'imageable');
     }
 }

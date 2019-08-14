@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Imageable;
 use App\Photo;
 use App\Post;
 use Illuminate\Http\Request;
@@ -38,14 +39,23 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $post = Post::create($request->only(['title']));
+
         $photos = explode(",", $request->get('photos')); //массив
-        foreach($photos as $photo){
-            Photo::create([
+        
+        foreach($photos as $filename){
+            $photo = Photo::create([
+                'filename' => $filename
+            ]);
+
+
+            Imageable::create([
+                'photo_id' => $photo->id,
                 'imageable_id' => $post->id,
                 'imageable_type' => 'App\Post',
-                'filename' => $photo
             ]);
         }
+
+
         return redirect()->route('posts.index');
 
     }

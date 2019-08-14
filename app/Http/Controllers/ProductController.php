@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Imageable;
 use App\Photo;
 use App\Product;
 use Illuminate\Http\Request;
@@ -37,13 +38,29 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        // $product = Product::create($request->only(['name']));
+        // $photos = explode(",", $request->get('photos'));
+        // foreach($photos as $photo){
+        //     Photo::create([
+        //         'imageable_id' => $product->id,
+        //         'imageable_type' => 'App\Product',
+        //         'filename' => $photo
+        //     ]);
+        // }
         $product = Product::create($request->only(['name']));
-        $photos = explode(",", $request->get('photos'));
-        foreach($photos as $photo){
-            Photo::create([
+
+        $photos = explode(",", $request->get('photos')); //массив
+        
+        foreach($photos as $filename){
+            $photo = Photo::create([
+                'filename' => $filename
+            ]);
+
+
+            Imageable::create([
+                'photo_id' => $photo->id,
                 'imageable_id' => $product->id,
                 'imageable_type' => 'App\Product',
-                'filename' => $photo
             ]);
         }
         return redirect()->route('products.index');
