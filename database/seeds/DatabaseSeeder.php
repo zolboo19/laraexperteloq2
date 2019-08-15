@@ -1,5 +1,6 @@
 <?php
 
+use App\Post;
 use App\Role;
 use App\User;
 use Illuminate\Database\Seeder;
@@ -20,17 +21,38 @@ class DatabaseSeeder extends Seeder
         Role::create(['name' => 'Editor']);
 
         $user = User::create([
+            'role_id' => 1,
             'name' => 'Admin',
             'email' => 'admin@me.com',
             'password' => bcrypt('password')
         ]);
+        $user = User::create([
+            'role_id' => 2,
+            'name' => 'Manager',
+            'email' => 'manager@me.com',
+            'password' => bcrypt('password')
+        ]);
+        $user = User::create([
+            'role_id' => 3,
+            'name' => 'Editor',
+            'email' => 'editor@me.com',
+            'password' => bcrypt('password')
+        ]);
 
-        $user->roles()->attach(1, ['approved' => 1]);
-        $user->roles()->attach(2);
-
-        foreach($user->approvedRoles as $role){
-            //info($role->name . '(time: ' . $role->pivot->created_at . ', approved: '. $role->pivot->approved . ')');
-            info($role->name);
+        for($i=1; $i<=10; $i++){
+            Post::create([
+                'user_id' => rand(1,3),
+                'title'=> str_random(10),
+                'post_text' => str_random(200)
+            ]);
         }
+
+        // $user->roles()->attach(1, ['approved' => 1]);
+        // $user->roles()->attach(2);
+
+        // foreach($user->approvedRoles as $role){
+        //     //info($role->name . '(time: ' . $role->pivot->created_at . ', approved: '. $role->pivot->approved . ')');
+        //     info($role->name);
+        // }
     }
 }

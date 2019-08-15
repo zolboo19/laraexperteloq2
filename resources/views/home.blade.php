@@ -8,13 +8,22 @@
                 <div class="card-header">Dashboard</div>
 
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    You are logged in!
+                    <table class="table">
+                        <tr>
+                            <th>Role</th>
+                            <th>Posts</th>
+                        </tr>
+                        @foreach ($roles as $role)
+                            <tr>
+                                <td>{{$role->name}}</td>
+                                <td>
+                                    @foreach ($role->posts as $post)
+                                        {{$post->title}} <br>
+                                    @endforeach
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
                 </div>
             </div>
         </div>

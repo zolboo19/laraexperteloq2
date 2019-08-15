@@ -44,4 +44,12 @@ class User extends Authenticatable
     public function approvedRoles(){
         return $this->belongsToMany(Role::class)->wherePivot('approved', 1);
     }
+
+    public function role(){
+        return $this->belongsTo(Role::class);
+    }
+
+    public function posts(){
+        return $this->hasMany(Post::class);
+    }
 }
