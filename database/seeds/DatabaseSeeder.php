@@ -1,5 +1,7 @@
 <?php
 
+use App\Author;
+use App\Book;
 use App\Post;
 use App\Role;
 use App\User;
@@ -54,5 +56,8 @@ class DatabaseSeeder extends Seeder
         //     //info($role->name . '(time: ' . $role->pivot->created_at . ', approved: '. $role->pivot->approved . ')');
         //     info($role->name);
         // }
+
+        factory(Author::class, 50)->create();
+        factory(Book::class, 100)->create();
     }
 }
