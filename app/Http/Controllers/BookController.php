@@ -16,6 +16,21 @@ class BookController extends Controller
     public function index()
     {
         $books = Book::with('author')->get();
+        // $books = Book::join('authors', 'books.author_id' , '=' , 'author_id')
+        //     ->where('authors.name', 'Jadon Sanford')
+        //     ->where('title', 'like', '%a%')
+        //     ->pluck('title')->dd();
+        // $author = Author::where('authors.name', 'Aracely Pacocha I')->first();
+        // $books = $author->books()
+        //     ->where('title', 'like', '%a%')
+        //     ->pluck('title')
+        //     ->dd();
+
+        // Author::whereHas('books', function($query){
+        //     $query->where('title', 'like', '%b%');
+        // })->get()->dd();
+
+        
         return view('books.index', compact('books'));
     }
 
