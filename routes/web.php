@@ -31,6 +31,9 @@ Route::post('products/create', 'ProductController@store')->name('products.store'
 Route::get('books', 'BookController@index')->name('books.index');
 Route::get('books/create', 'BookController@create')->name('books.create');
 Route::post('books/create', 'BookController@store')->name('books.store');
+Route::get('books/test', 'BookController@test');
+Route::get('books/test2', 'BookController@test2');
+Route::get('books/test3', 'BookController@test3');
 
 Auth::routes();
 

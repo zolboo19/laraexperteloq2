@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Author;
 use App\Book;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BookController extends Controller
 {
@@ -112,5 +113,47 @@ class BookController extends Controller
     public function destroy(Book $book)
     {
         //
+    }
+
+
+    public function test(){
+        $time_start = $this->microtime_float();
+
+        $books = Book::with('author')
+            ->where('title', 'like', '%a%')
+            ->take(50)
+            ->get(); //Eloquent query
+
+        $time_end = $this->microtime_float();
+        $time = $time_end - $time_start;
+        return $time;
+    }
+
+    public function test2(){
+        $time_start = $this->microtime_float();
+
+        $books = DB::table('books')
+            ->join('authors', 'books.author_id', '=', 'authors.id')
+            ->where('title', 'like', '%a%')
+            ->get(); //Query builder query
+
+        $time_end = $this->microtime_float();
+        $time = $time_end - $time_start;
+        return $time;
+    }
+
+    public function test3(){
+        $time_start = $this->microtime_float();
+
+        $books = DB::select("select * from books join authors on books.author_id = authors.id where title like '%a%'");
+        //sql
+        $time_end = $this->microtime_float();
+        $time = $time_end - $time_start;
+        return $time;
+    }
+
+    public function microtime_float(){
+        list($usec, $sec) = explode(' ', microtime());
+        return ((float)$usec + (float)$sec);
     }
 }
